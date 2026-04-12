@@ -11,8 +11,34 @@ import { SecurityGrid } from "@/components/SecurityGrid";
 import { TestimonialCard } from "@/components/TestimonialCard";
 import { Footer } from "@/components/Footer";
 
+
+
 export default function ProxionPage() {
   const [email, setEmail] = useState("");
+const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
+
+const handleSubmit = async () => {
+  if (!email || !email.includes("@")) return;
+
+  setStatus("loading");
+
+  try {
+    const res = await fetch("https://formspree.io/f/xlgarbba", {
+      method: "POST",
+      headers: { "Content-Type": "application/json", Accept: "application/json" },
+      body: JSON.stringify({ email }),
+    });
+
+    if (res.ok) {
+      setStatus("success");
+      setEmail("");
+    } else {
+      setStatus("error");
+    }
+  } catch {
+    setStatus("error");
+  }
+};
 
   return (
     <main className="bg-[#020606] text-white overflow-x-hidden min-h-screen">
@@ -108,13 +134,14 @@ export default function ProxionPage() {
       </section>
 
       {/* SECTION 3 — COMING SOON */}
-      <section className="relative min-h-screen flex flex-col items-center justify-center bg-[#020606]">
+{/* SECTION 3 — COMING SOON */}
+<section className="relative min-h-screen flex flex-col items-center justify-center bg-[#020606]">
         <div className="text-center mb-20 px-4">
           <h2 className="text-[64px] md:text-[96px] font-bold tracking-tight mb-8">
             <span className="text-white/40">Proxion is </span>
             <span className="text-white">Coming!</span>
           </h2>
-          <p className="text-white/30 text-xl font-medium">Join and waiting list to get early access</p>
+          <p className="text-white/30 text-xl font-medium">Join the waiting list to get early access</p>
         </div>
 
         <div className="w-full max-w-2xl flex p-2.5 rounded-full bg-white/[0.03] border border-white/10 backdrop-blur-3xl">
@@ -125,10 +152,21 @@ export default function ProxionPage() {
             placeholder="Enter your email address"
             className="flex-1 bg-transparent px-8 py-5 outline-none text-white text-lg placeholder:text-white/30"
           />
-          <button className="bg-[#00e5aa] text-black font-bold px-12 py-5 rounded-full text-base hover:opacity-90 transition-opacity">
-            Get early access
+          <button
+            onClick={handleSubmit}
+            disabled={status === "loading" || status === "success"}
+            className="bg-[#00e5aa] text-black font-bold px-12 py-5 rounded-full text-base hover:opacity-90 transition-opacity disabled:opacity-60"
+          >
+            {status === "loading" ? "Submitting..." : status === "success" ? "You're in! ✓" : "Get early access"}
           </button>
         </div>
+
+        {status === "error" && (
+          <p className="mt-4 text-red-400 text-sm">Something went wrong. Please try again.</p>
+        )}
+        {status === "success" && (
+          <p className="mt-4 text-[#00e5aa] text-sm">You're on the list — we'll be in touch!</p>
+        )}
 
         <Footer />
       </section>

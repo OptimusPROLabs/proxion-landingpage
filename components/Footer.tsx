@@ -9,7 +9,7 @@ export function Footer() {
   ];
 
   return (
-    <footer className="w-full bg-proxion-dark py-12 px-16 border-t border-white/5 relative z-10 overflow-hidden">
+    <footer className="w-full bg-proxion-dark py-10 px-6 md:px-12 border-t border-white/5 relative z-10 overflow-hidden">
       {/* Decorative Gradient */}
       <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-full h-24 bg-proxion-green/5 blur-[120px] rounded-full" />
 
@@ -18,20 +18,20 @@ export function Footer() {
           <Logo />
         </div>
 
-        <nav className="flex gap-14">
+        <nav className="flex gap-10">
           {["Home", "Features", "Whitepaper"].map((item) => (
             <motion.a
               key={item}
               href="#"
               whileHover={{ scale: 1.05, color: "#fff" }}
-              className="text-white/40 text-[15px] font-semibold hover:text-white transition-all duration-300"
+              className="text-white/40 text-sm font-semibold hover:text-white transition-all duration-300"
             >
               {item}
             </motion.a>
           ))}
         </nav>
 
-        <div className="flex items-center gap-8">
+        <div className="flex items-center gap-6">
           {socials.map((social, i) => (
             <motion.a
               key={i}

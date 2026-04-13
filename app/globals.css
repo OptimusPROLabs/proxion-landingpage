@@ -31,3 +31,39 @@
 .hero-gradient {
   background: radial-gradient(circle at 50% -20%, #004d3d 0%, #020606 70%);
 }
+
+@keyframes testimonial-marquee {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+@layer utilities {
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .testimonial-marquee {
+    overflow: hidden;
+  }
+
+  .testimonial-marquee-track {
+    display: flex;
+    width: max-content;
+    will-change: transform;
+    animation: testimonial-marquee 26s linear infinite;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .testimonial-marquee-track {
+      animation: none;
+    }
+  }
+}
